@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mktaba</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --carpet-red: #8b1c21;
+            --carpet-black: #110e0e;
+            --shelf-brown: #5d4037;
+            --carpet-purple: #3e2a4f;
+            --jasmine: #fdfdf0;
+            --pomegranate: #d32f2f;
+            --gold: #d4af37;
+            --danger: #b02a2a;
+            --statut-lu: #2e7d32;
+            --statut-encours: #f57f17;
+            --statut-paslu: #616161;
+        }
+
+        body { 
+            font-family: 'Lora', serif; 
+            background-image: url('https://media.castorama.fr/is/image/Castorama/tapis-oriental-persan-rouge-l-230-x-l-160-cm-balta~5412776453068_01c_FR_CF?$MOB_PREV$&$width=2792&$height=2792');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            background-color: var(--carpet-black); color: var(--jasmine); margin: 0; padding: 50px 20px; 
+        }
+
+        .header-container {
+            position: relative; max-width: 800px; margin: 0 auto 50px; padding: 40px;
+            background-size: cover; background-position: center; border: 3px solid var(--gold);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); text-align: center;
+            background-image: url('https://i.pinimg.com/736x/30/0d/23/300d235e6587f5185ff6d21115ff784b.jpg');
+        }
+
+        h1 { 
+            font-family: 'Cinzel Decorative', cursive; font-size: 4rem; color: var(--gold);
+            margin: 0; text-shadow: 3px 3px 6px rgba(0,0,0,1); background: rgba(17, 14, 14, 0.6);
+            display: inline-block; padding: 10px 30px; width: 100%; box-sizing: border-box;
+        }
+
+        .container-gestion {
+            max-width: 800px; margin: 0 auto 60px; background: rgba(17, 14, 14, 0.85);
+            padding: 40px; border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(211, 47, 47, 0.3); 
+            backdrop-filter: blur(3px);
+        }
+
+        .controles-superieurs { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .filtres-categorie, .controles-vue, .filtre-annee { display: flex; gap: 10px; align-items: center; }
+        
+        .btn-filtre {
+            background: rgba(93, 64, 55, 0.6); color: var(--jasmine); border: 1px solid var(--gold);
+            padding: 8px 15px; cursor: pointer; font-family: 'Cinzel Decorative', cursive; font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .btn-filtre.active, .btn-filtre:hover { background: var(--gold); color: var(--carpet-black); }
+        
+        #select-annee { outline: none; }
+        #select-annee option { background: var(--carpet-black); color: var(--gold); }
+
+        .borne-recherche { margin-bottom: 25px; }
+        #input-recherche {
+            width: 100%; padding: 15px; background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--gold); color: var(--gold); font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.1rem; box-sizing: border-box; outline: none;
+        }
+        #input-recherche:focus { background: rgba(212, 175, 55, 0.2); }
+
+        #formulaire-livre { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        #formulaire-livre input, .edit-form input { 
+            padding: 12px; border: 1px solid var(--gold); background: rgba(93, 64, 55, 0.4);
+            color: var(--gold); font-family: inherit; font-size: 1.1rem; outline: none;
+        }
+        #formulaire-livre button { grid-column: span 2; background: var(--pomegranate); color: var(--jasmine); border: 2px solid var(--gold); padding: 15px; cursor: pointer; font-family: 'Cinzel Decorative', cursive; transition: 0.3s; }
+        #formulaire-livre button:hover { background: var(--danger); }
+
+        /* ÉTAGÈRE : VUE GRILLE */
+        #mon-etagere { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
+
+        .livre {
+            background-color: var(--shelf-brown); border: 1px solid rgba(212, 175, 55, 0.4);
+            display: flex; flex-direction: column; transition: all 0.3s ease;
+            box-shadow: 8px 8px 15px rgba(0,0,0,0.6); position: relative;
+        }
+        .livre:hover { transform: translateY(-5px); box-shadow: 12px 12px 20px rgba(0,0,0,0.8); }
+
+        .badge-statut {
+            position: absolute; top: 10px; right: 10px; padding: 4px 10px;
+            font-size: 0.7rem; font-weight: bold; text-transform: uppercase;
+            border-radius: 3px; color: white; z-index: 15; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .badge-statut:hover { transform: scale(1.1); }
+
+        .livre-info {
+            padding: 20px; text-align: center; flex-grow: 1; background-color: var(--jasmine);
+            background-size: cover; color: var(--carpet-black);
+            background-image: linear-gradient(rgba(253, 253, 240, 0.85), rgba(253, 253, 240, 0.85)), url('https://i.pinimg.com/736x/a7/0f/c1/a70fc1763277a5640da70dddd6f05da0.jpg');
+        }
+
+        .livre img { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; background: #000; border-bottom: 2px solid var(--gold); }
+        .livre h2 { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 700; margin: 0 0 5px 0; }
+        .livre h3 { font-size: 0.9rem; font-style: italic; color: var(--carpet-purple); margin: 0; }
+        .livre-annee { font-size: 0.85rem; color: var(--carpet-red); font-weight: bold; margin: 8px 0 0; }
+
+        .actions { display: grid; grid-template-columns: 1fr; background: var(--carpet-black); }
+        .btn-action { padding: 12px; border: none; cursor: pointer; color: var(--gold); background: transparent; font-family: 'Cinzel Decorative', cursive; font-size: 0.8rem; transition: 0.2s; }
+        .bouton-modifier:hover { background: rgba(255,255,255,0.1); }
+
+        /* ÉTAGÈRE : VUE LISTE */
+        #mon-etagere.mode-liste { display: flex; flex-direction: column; gap: 20px; max-width: 1000px; }
+        #mon-etagere.mode-liste .livre { flex-direction: row; height: 140px; }
+        #mon-etagere.mode-liste .livre:hover { transform: translateX(5px); }
+        #mon-etagere.mode-liste .livre img { width: 100px; height: 100%; aspect-ratio: auto; object-fit: cover; border-bottom: none; border-right: 2px solid var(--gold); }
+        #mon-etagere.mode-liste .livre-info { text-align: left; padding: 20px 30px; display: flex; flex-direction: column; justify-content: center; }
+        #mon-etagere.mode-liste .livre h2 { font-size: 1.3rem; margin-bottom: 8px; }
+        #mon-etagere.mode-liste .livre h3 { font-size: 1rem; }
+        #mon-etagere.mode-liste .actions { display: flex; flex-direction: column; width: 150px; border-left: 2px solid var(--gold); border-top: none; }
+        #mon-etagere.mode-liste .btn-action { flex: 1; border: none; height: 100%; }
+        #mon-etagere.mode-liste .badge-statut { top: 15px; right: 170px; }
+
+        @media (max-width: 768px) {
+            #mon-etagere.mode-liste .livre { flex-direction: column; height: auto; }
+            #mon-etagere.mode-liste .livre img { width: 100%; height: 200px; border-right: none; border-bottom: 2px solid var(--gold); }
+            #mon-etagere.mode-liste .livre-info { text-align: center; }
+            #mon-etagere.mode-liste .actions { width: 100%; flex-direction: row; border-left: none; border-top: 2px solid var(--gold); }
+            #mon-etagere.mode-liste .badge-statut { top: 10px; right: 10px; }
+            .controles-superieurs { justify-content: center; }
+            #formulaire-livre { grid-template-columns: 1fr; }
+            #formulaire-livre input, #formulaire-livre button { grid-column: span 1 !important; }
+            .modal-content { grid-template-columns: 1fr !important; height: auto !important; max-height: 90vh; overflow-y: auto; }
+            .modal-img { height: 200px; margin-bottom: 20px; }
+        }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center;
+            z-index: 1000; backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background-image: url('https://i.pinimg.com/736x/b5/b3/6c/b5b36cd3066c3e650885584abb88bc4e.jpg');
+            background-size: cover; background-position: center; color: var(--carpet-black);
+            width: 90%; max-width: 850px; min-height: 400px; display: grid; grid-template-columns: 240px 1fr; 
+            border: none; position: relative; padding: 35px; box-sizing: border-box; overflow: hidden;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+        }
+
+        .modal-img { width: 100%; height: 100%; object-fit: contain; }
+        .modal-details { padding: 10px 30px 10px 40px; overflow-y: auto; height: 100%; box-sizing: border-box; }
+        .modal-details h2 { font-family: 'Cinzel Decorative', cursive; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin-top: 0; }
+        .close-modal { position: absolute; top: 15px; right: 25px; font-size: 2.5rem; color: var(--carpet-red); cursor: pointer; z-index: 10; line-height: 1; }
+
+        .edit-form { display: grid; gap: 15px; }
+        .edit-form label { font-family: 'Cinzel Decorative', cursive; color: var(--carpet-red); font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 5px;}
+        .edit-form input { background: rgba(255, 255, 255, 0.7); border: 1px solid var(--gold); color: #000; width: 100%; box-sizing: border-box;}
+        
+        .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-modal { flex: 1; padding: 12px; border: none; cursor: pointer; font-family: 'Cinzel Decorative', cursive; transition: 0.3s; }
+        .btn-save { background: var(--pomegranate); color: white; border: 1px solid var(--gold); }
+        .btn-save:hover { background: #b71c1c; }
+        .btn-delete { background: var(--danger); color: white; }
+        .btn-delete:hover { background: #7f0000; }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>Mktaba</h1>
+    </div>
+
+    <div class="container-gestion">
+        <div class="controles-superieurs">
+            <div class="filtres-categorie">
+                <button class="btn-filtre active" onclick="changerFiltreStatut('tous', this)">Tous</button>
+                <button class="btn-filtre" onclick="changerFiltreStatut('lu', this)">Lus</button>
+                <button class="btn-filtre" onclick="changerFiltreStatut('en cours', this)">En cours</button>
+                <button class="btn-filtre" onclick="changerFiltreStatut('pas lu', this)">À lire</button>
+            </div>
+            
+            <div class="filtre-annee">
+                <select id="select-annee" class="btn-filtre" onchange="changerFiltreAnnee()">
+                    <option value="toutes">Toutes les années</option>
+                </select>
+            </div>
+
+            <div class="controles-vue">
+                <button class="btn-filtre active" id="btn-vue-grille" onclick="changerVue('grille')">⊞ Grille</button>
+                <button class="btn-filtre" id="btn-vue-liste" onclick="changerVue('liste')">☰ Liste</button>
+            </div>
+        </div>
+
+        <div class="borne-recherche">
+            <input type="text" id="input-recherche" placeholder="Rechercher un titre ou un auteur...">
+        </div>
+
+        <form id="formulaire-livre">
+            <input type="text" id="Titre" placeholder="Titre" required>
+            <input type="text" id="Auteur" placeholder="Auteur" required>
+            <input type="url" id="Image" placeholder="Lien image URL">
+            <input type="number" id="Annee" min="1900" max="2099" step="1" placeholder="Année de lecture">
+            <button type="submit">Ajouter à la bibliothèque</button>
+        </form>
+
+        <div class="zone-import" style="margin-top: 20px; border-top: 1px solid var(--gold); padding-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+            <div>
+                <label style="color: var(--gold); font-family: 'Cinzel Decorative', cursive;"><strong>📜 Importer depuis Goodreads (CSV)</strong></label><br><br>
+                <input type="file" id="import-csv" accept=".csv" style="color: white;">
+            </div>
+            
+            <div style="border-top: 1px solid rgba(212, 175, 55, 0.3); padding-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <button type="button" class="btn-filtre" onclick="exporterDonneesMktaba()" style="background: rgba(46, 125, 50, 0.4);">📥 Sauvegarder ma bibliothèque (Export TXT)</button>
+                <button type="button" class="btn-filtre" onclick="document.getElementById('import-txt-mktaba').click()" style="background: rgba(245, 127, 23, 0.4);">📤 Transférer ma bibliothèque (Import TXT)</button>
+                <input type="file" id="import-txt-mktaba" accept=".txt" style="display: none;" onchange="importerDonneesMktaba(event)">
+            </div>
+        </div>
+    </div>
+
+    <div id="mon-etagere"></div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="fermerModales()">&times;</span>
+            <img src="" alt="Couverture" class="modal-img" id="modalImg">
+            <div class="modal-details">
+                <h2 id="modalTitre">Titre</h2>
+                <h4 id="modalAuteur">Auteur</h4>
+                <p id="modalAnnee" class="livre-annee" style="font-size: 1rem;"></p>
+                <hr style="border: 0; border-top: 1px solid rgba(139, 28, 33, 0.2); margin: 15px 0;">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalEditOverlay">
+        <div class="modal-content" style="grid-template-columns: 1fr;">
+            <span class="close-modal" onclick="fermerModales()">&times;</span>
+            <div class="modal-details" style="padding-top: 10px;">
+                <h2 style="color: var(--carpet-red); text-shadow: none; text-align: center; margin-bottom: 20px;">Modifier l'Ouvrage</h2>
+                <div class="edit-form">
+                    <input type="hidden" id="editId">
+                    <div>
+                        <label>Titre de l'Œuvre</label>
+                        <input type="text" id="editTitre">
+                    </div>
+                    <div>
+                        <label>Auteur</label>
+                        <input type="text" id="editAuteur">
+                    </div>
+                    <div>
+                        <label>Lien de l'image</label>
+                        <input type="text" id="editImg">
+                    </div>
+                    <div>
+                        <label>Année de lecture</label>
+                        <input type="number" id="editAnnee" min="1900" max="2099" step="1" placeholder="Ex: 2026">
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-save" onclick="appliquerModifications()">Sauvegarder</button>
+                        <button class="btn-modal btn-delete" onclick="supprimerLivre()">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let bibliotheque = [];
+        let filtreActuelStatut = 'tous';
+        let filtreActuelAnnee = 'toutes';
+        const etagere = document.getElementById("mon-etagere");
+
+        function migrerAnciennesDonnees() {
+            const ancienHTML = localStorage.getItem("mes-livres");
+            if (ancienHTML) {
+                const div = document.createElement('div');
+                div.innerHTML = ancienHTML;
+                const anciensLivres = Array.from(div.querySelectorAll('.livre')).map(el => {
+                    const anneeElement = el.querySelector('.livre-annee');
+                    const anneeBrute = anneeElement ? anneeElement.innerText.replace('Lu en : ', '') : '';
+                    
+                    return {
+                        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                        titre: el.querySelector('h2').innerText,
+                        auteur: el.querySelector('h3').innerText,
+                        image: el.querySelector('img').src,
+                        annee: anneeBrute,
+                        statut: el.getAttribute('data-statut') || 'pas lu'
+                    };
+                });
+                bibliotheque = anciensLivres;
+                sauvegarderDonnees();
+                localStorage.removeItem("mes-livres");
+            }
+        }
+
+        function chargerDonnees() {
+            migrerAnciennesDonnees();
+            const data = localStorage.getItem("mktaba-data");
+            if (data) bibliotheque = JSON.parse(data);
+            afficherLivres();
+        }
+
+        function sauvegarderDonnees() {
+            localStorage.setItem("mktaba-data", JSON.stringify(bibliotheque));
+        }
+
+        function getCouleurStatut(statut) {
+            if(statut === "lu") return "var(--statut-lu)";
+            if(statut === "en cours") return "var(--statut-encours)";
+            return "var(--statut-paslu)";
+        }
+
+        function afficherLivres() {
+            const saisie = document.getElementById("input-recherche").value.toLowerCase();
+            
+            const selectAnnee = document.getElementById("select-annee");
+            const anneesDispos = [...new Set(bibliotheque.map(l => l.annee).filter(a => a !== "" && a !== undefined))].sort((a,b) => b - a);
+            
+            let optionsHTML = '<option value="toutes">Toutes les années</option>';
+            anneesDispos.forEach(a => {
+                optionsHTML += `<option value="${a}">${a}</option>`;
+            });
+            selectAnnee.innerHTML = optionsHTML;
+            selectAnnee.value = anneesDispos.includes(filtreActuelAnnee) ? filtreActuelAnnee : 'toutes';
+
+            const livresFiltres = bibliotheque.filter(livre => {
+                const matchTexte = livre.titre.toLowerCase().includes(saisie) || livre.auteur.toLowerCase().includes(saisie);
+                const matchStatut = (filtreActuelStatut === 'tous' || livre.statut === filtreActuelStatut);
+                const matchAnnee = (filtreActuelAnnee === 'toutes' || livre.annee == filtreActuelAnnee);
+                return matchTexte && matchStatut && matchAnnee;
+            });
+
+            etagere.innerHTML = livresFiltres.map(livre => `
+                <div class="livre" data-id="${livre.id}">
+                    <div class="badge-statut" style="background:${getCouleurStatut(livre.statut)}" onclick="changerStatutLivre('${livre.id}', event)">${livre.statut}</div>
+                    <img src="${livre.image || 'https://via.placeholder.com/400x400?text=Indisponible'}" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x400?text=Indisponible'" alt="Couverture">
+                    <div class="livre-info" onclick="ouvrirDetails('${livre.id}')">
+                        <h2>${livre.titre}</h2>
+                        <h3>${livre.auteur}</h3>
+                        ${livre.annee ? `<p class="livre-annee">Lu en : ${livre.annee}</p>` : ''}
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="btn-action bouton-modifier" onclick="ouvrirEdition('${livre.id}')">Modifier</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById("formulaire-livre").onsubmit = (e) => {
+            e.preventDefault();
+            const nouveauLivre = {
+                id: Date.now().toString(),
+                titre: document.getElementById("Titre").value,
+                auteur: document.getElementById("Auteur").value,
+                image: document.getElementById("Image").value,
+                annee: document.getElementById("Annee").value,
+                statut: "pas lu"
+            };
+            bibliotheque.unshift(nouveauLivre); 
+            sauvegarderDonnees();
+            afficherLivres();
+            e.target.reset();
+        };
+
+        function changerStatutLivre(id, event) {
+            event.stopPropagation(); 
+            const livre = bibliotheque.find(l => l.id === id);
+            if (!livre) return;
+
+            if (livre.statut === "pas lu") livre.statut = "en cours";
+            else if (livre.statut === "en cours") livre.statut = "lu";
+            else livre.statut = "pas lu";
+
+            sauvegarderDonnees();
+            afficherLivres();
+        }
+
+        function ouvrirDetails(id) {
+            const livre = bibliotheque.find(l => l.id === id);
+            if (!livre) return;
+
+            document.getElementById("modalTitre").innerText = livre.titre;
+            document.getElementById("modalAuteur").innerText = livre.auteur;
+            document.getElementById("modalImg").src = livre.image || 'https://via.placeholder.com/400x400?text=Indisponible';
+            document.getElementById("modalAnnee").innerText = livre.annee ? `Lu en : ${livre.annee}` : '';
+
+            document.getElementById("modalOverlay").style.display = "flex";
+        }
+
+        function abrirEdition(id) {
+            const livre = bibliotheque.find(l => l.id === id);
+            if (!livre) return;
+
+            document.getElementById("editId").value = livre.id;
+            document.getElementById("editTitre").value = livre.titre;
+            document.getElementById("editAuteur").value = livre.auteur;
+            document.getElementById("editImg").value = livre.image;
+            document.getElementById("editAnnee").value = livre.annee || "";
+            
+            document.getElementById("modalEditOverlay").style.display = "flex";
+        } 
+
+        function appliquerModifications() {
+            const id = document.getElementById("editId").value;
+            const livreIndex = bibliotheque.findIndex(l => l.id === id);
+            
+            if (livreIndex !== -1) {
+                bibliotheque[livreIndex].titre = document.getElementById("editTitre").value;
+                bibliotheque[livreIndex].auteur = document.getElementById("editAuteur").value;
+                bibliotheque[livreIndex].image = document.getElementById("editImg").value;
+                bibliotheque[livreIndex].annee = document.getElementById("editAnnee").value;
+                
+                sauvegarderDonnees();
+                afficherLivres();
+                fermerModales();
+            }
+        }
+
+        function supprimerLivre() {
+            const id = document.getElementById("editId").value;
+            if (confirm("Voulez-vous vraiment retirer cet ouvrage de votre collection ?")) {
+                bibliotheque = bibliotheque.filter(l => l.id !== id);
+                sauvegarderDonnees();
+                afficherLivres();
+                fermerModales();
+            }
+        }
+
+        function changerVue(mode) {
+            const btnGrille = document.getElementById("btn-vue-grille");
+            const btnListe = document.getElementById("btn-vue-liste");
+            
+            if (mode === 'liste') {
+                etagere.classList.add("mode-liste");
+                btnListe.classList.add("active");
+                btnGrille.classList.remove("active");
+                localStorage.setItem("vue-mktaba", "liste");
+            } else {
+                etagere.classList.remove("mode-liste");
+                btnGrille.classList.add("active");
+                btnListe.classList.remove("active");
+                localStorage.setItem("vue-mktaba", "grille");
+            }
+        }
+
+        function changerFiltreStatut(statut, btn) {
+            document.querySelectorAll('.filtres-categorie .btn-filtre').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filtreActuelStatut = statut;
+            afficherLivres();
+        }
+
+        function changerFiltreAnnee() {
+            filtreActuelAnnee = document.getElementById("select-annee").value;
+            afficherLivres();
+        }
+
+        function fermerModales() {
+            document.getElementById("modalOverlay").style.display = "none";
+            document.getElementById("modalEditOverlay").style.display = "none";
+        }
+
+        window.onclick = (e) => { 
+            if (e.target.classList.contains('modal-overlay')) fermerModales(); 
+        };
+
+        document.getElementById("input-recherche").addEventListener('input', afficherLivres);
+
+        // --- FONCTIONS DE SAUVEGARDE ET DE TRANSFERT DE LA BIBLIOTHEQUE ---
+        function exporterDonneesMktaba() {
+            if(bibliotheque.length === 0) {
+                alert("Ta bibliothèque est vide, rien à exporter !");
+                return;
+            }
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(bibliotheque));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "mktaba_sauvegarde_securisee.txt");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+        function importerDonneesMktaba(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const donneesImportees = JSON.parse(e.target.result);
+                    if (Array.isArray(donneesImportees)) {
+                        if(confirm(`Voulez-vous injecter les ${donneesImportees.length} livres récupérés dans cette session ?`)) {
+                            bibliotheque = [...donneesImportees, ...bibliotheque];
+                            // Supprimer les doublons d'ID au cas où
+                            const uniqueMap = {};
+                            bibliotheque.forEach(l => uniqueMap[l.id] = l);
+                            bibliotheque = Object.values(uniqueMap);
+                            
+                            sauvegarderDonnees();
+                            afficherLivres();
+                            alert("Transfert réussi ! Tous vos livres sont ici.");
+                        }
+                    } else {
+                        alert("Le format du fichier de sauvegarde n'est pas valide.");
+                    }
+                } catch (err) {
+                    alert("Erreur de lecture du fichier texte.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        document.getElementById("import-csv").onchange = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const lignes = e.target.result.split(/\r?\n/);
+                const nouveauxLivres = [];
+
+                for (let i = 1; i < lignes.length; i++) {
+                    if (!lignes[i].trim()) continue; 
+                    const cols = lignes[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || []; 
+                    if (cols.length < 5) continue;
+
+                    const nettoyage = (str) => str ? str.replace(/^"|"$/g, '').trim() : '';
+
+                    const tit = nettoyage(cols[1]);
+                    const aut = nettoyage(cols[2]);
+                    const isbn = nettoyage(cols[5] || cols[6]).replace(/[^0-9X]/gi, "");
+                    const grStatut = nettoyage(cols[18] || cols[13]) || "to-read"; 
+                    
+                    const dateRead = nettoyage(cols[14]);
+                    const anneeImport = dateRead ? dateRead.split(/[\/-]/)[0] : "";
+
+                    let finalStatut = "pas lu";
+                    if (grStatut === "read") finalStatut = "lu";
+                    else if (grStatut === "currently-reading") finalStatut = "en cours";
+
+                    const img = isbn.length >= 10 
+                        ? `https://books.google.com/books/content?vid=isbn${isbn}&printsec=frontcover&img=1&zoom=2` 
+                        : `https://via.placeholder.com/400x400?text=${encodeURIComponent(tit)}`;
+
+                    nouveauxLivres.push({
+                        id: Date.now().toString() + i,
+                        titre: tit,
+                        auteur: aut,
+                        image: img,
+                        annee: anneeImport,
+                        statut: finalStatut
+                    });
+                }
+
+                bibliotheque = [...nouveauxLivres, ...bibliotheque]; 
+                sauvegarderDonnees();
+                afficherLivres();
+                alert(`${nouveauxLivres.length} ouvrages ont été ajoutés à la bibliothèque !`);
+            };
+            reader.readAsText(file);
+        };
+
+        if (localStorage.getItem("vue-mktaba") === "liste") changerVue('liste');
+        chargerDonnees();
+    </script>
+</body>
+</html>
