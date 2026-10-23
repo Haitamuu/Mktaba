@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mktaba • Sanctuaire Littéraire</title>
+    <title>Mktaba</title>
     
-    <!-- Typographies royales & orientales -->
+    <!-- Polices -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Firebase SDK v8 -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -17,297 +17,213 @@
     <style>
         :root {
             --carpet-red: #8b1c21;
-            --carpet-deep: #5b0f13;
-            --carpet-black: #0d0a0b;
-            --carpet-charcoal: #151113;
-            --shelf-brown: #3e2723;
-            --shelf-wood: #4e342e;
-            --carpet-purple: #3e2445;
-            --jasmine: #fdfaf0;
-            --parchment: #f5eedb;
-            --pomegranate: #c62828;
-            --pomegranate-glow: #e53935;
+            --carpet-black: #110e0e;
+            --carpet-dark: #181214;
+            --shelf-brown: #5d4037;
+            --shelf-dark: #37231c;
+            --carpet-purple: #3e2a4f;
+            --jasmine: #fdfdf0;
+            --pomegranate: #d32f2f;
             --gold: #d4af37;
-            --gold-light: #f7e089;
-            --gold-dark: #997b1e;
-            --gold-muted: rgba(212, 175, 55, 0.4);
-            --danger: #b71c1c;
+            --gold-light: #f3e5ab;
+            --gold-muted: rgba(212, 175, 55, 0.45);
+            --danger: #b02a2a;
             --statut-lu: #2e7d32;
-            --statut-encours: #d97706;
-            --statut-paslu: #52525b;
-            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.6);
-            --shadow-glow: 0 0 25px rgba(212, 175, 55, 0.25);
-            --border-gold: 1px solid var(--gold-muted);
+            --statut-encours: #f57f17;
+            --statut-paslu: #616161;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            border-radius: 0 !important; /* Angles nets et géométriques stricts */
         }
 
         body { 
             font-family: 'Lora', serif; 
             background-color: var(--carpet-black);
             background-image: 
-                radial-gradient(circle at 50% 15%, rgba(62, 36, 69, 0.45) 0%, rgba(13, 10, 11, 0.88) 60%, rgba(8, 6, 7, 0.96) 100%),
+                radial-gradient(circle at 50% 15%, rgba(62, 42, 79, 0.4) 0%, rgba(17, 14, 14, 0.88) 65%, rgba(10, 8, 8, 0.97) 100%),
                 url('https://media.castorama.fr/is/image/Castorama/tapis-oriental-persan-rouge-l-230-x-l-160-cm-balta~5412776453068_01c_FR_CF?$MOB_PREV$&$width=2792&$height=2792');
-            background-size: auto, cover;
-            background-position: center;
+            background-size: cover; 
+            background-position: center; 
             background-attachment: fixed;
-            color: var(--jasmine);
+            color: var(--jasmine); 
             min-height: 100vh;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        /* --- ÉCRAN DE CONNEXION / SANCTUAIRE --- */
+        /* --- ÉCRAN DE CONNEXION --- */
         #login-screen {
-            position: fixed;
+            position: fixed; 
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                radial-gradient(circle at 50% 40%, rgba(139, 28, 33, 0.4) 0%, rgba(13, 10, 11, 0.92) 70%, rgba(5, 4, 5, 0.98) 100%),
+                radial-gradient(circle at 50% 40%, rgba(139, 28, 33, 0.45) 0%, rgba(17, 14, 14, 0.92) 70%, rgba(10, 8, 8, 0.98) 100%),
                 url('https://media.castorama.fr/is/image/Castorama/tapis-oriental-persan-rouge-l-230-x-l-160-cm-balta~5412776453068_01c_FR_CF?$MOB_PREV$&$width=2792&$height=2792');
-            background-size: cover;
+            background-size: cover; 
             background-position: center;
-            display: flex;
-            justify-content: center;
+            display: flex; 
+            justify-content: center; 
             align-items: center;
             z-index: 2000;
             padding: 20px;
-            backdrop-filter: blur(4px);
         }
 
         .login-box {
-            background: linear-gradient(145deg, rgba(21, 17, 19, 0.96), rgba(13, 10, 11, 0.98));
-            padding: 50px 40px;
-            border: 2px solid var(--gold);
-            outline: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(17, 14, 14, 0.96); 
+            padding: 50px 40px; 
+            border: 3px solid var(--gold);
+            outline: 1px solid var(--gold-muted);
             outline-offset: -8px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), var(--shadow-glow);
-            text-align: center;
-            max-width: 440px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9), 0 0 25px rgba(212, 175, 55, 0.25); 
+            text-align: center; 
+            max-width: 420px; 
             width: 100%;
             position: relative;
-            border-radius: 4px;
-        }
-
-        .login-ornament-top {
-            font-size: 1.6rem;
-            color: var(--gold);
-            margin-bottom: 8px;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
-            letter-spacing: 6px;
-        }
-
-        .login-arabic {
-            font-family: 'Amiri', serif;
-            font-size: 1.8rem;
-            color: var(--gold-light);
-            margin-bottom: 5px;
-            letter-spacing: 2px;
         }
 
         .login-box h1 { 
             font-family: 'Cinzel Decorative', cursive; 
-            font-size: 2.4rem; 
-            margin: 0 0 8px 0; 
+            font-size: 2.6rem; 
+            margin: 0 0 30px 0; 
             color: var(--gold); 
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-            letter-spacing: 3px;
-        }
-
-        .login-subtitle {
-            font-family: 'Lora', serif;
-            font-style: italic;
-            font-size: 0.95rem;
-            color: rgba(253, 250, 240, 0.7);
-            margin-bottom: 30px;
-        }
-
-        .login-input-group {
-            position: relative;
-            margin-bottom: 22px;
+            letter-spacing: 2px;
         }
 
         .login-box input { 
             width: 100%; 
-            padding: 16px 20px; 
-            background: rgba(0, 0, 0, 0.55); 
-            border: 1px solid var(--gold); 
-            color: var(--gold-light); 
+            padding: 16px; 
+            margin-bottom: 20px; 
+            background: rgba(255,255,255,0.06); 
+            border: 2px solid var(--gold); 
+            color: var(--gold); 
             font-family: 'Cinzel', serif; 
             text-align: center; 
-            font-size: 1.1rem; 
-            letter-spacing: 2px;
+            font-size: 1.15rem; 
             outline: none;
-            border-radius: 2px;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
         .login-box input:focus { 
-            background: rgba(212, 175, 55, 0.12);
-            border-color: var(--gold-light);
-            box-shadow: 0 0 18px rgba(212, 175, 55, 0.35);
+            background: rgba(212, 175, 55, 0.15); 
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
         }
 
         .login-box button { 
             width: 100%; 
             padding: 16px; 
-            background: linear-gradient(135deg, var(--carpet-red), var(--pomegranate)); 
-            color: var(--jasmine); 
-            border: 1px solid var(--gold); 
+            background: var(--pomegranate); 
+            color: white; 
+            border: 2px solid var(--gold); 
             cursor: pointer; 
             font-family: 'Cinzel', serif; 
-            font-weight: 700;
             font-size: 1.05rem; 
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(139, 28, 33, 0.5);
-            transition: all 0.3s ease;
-            border-radius: 2px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
 
         .login-box button:hover { 
-            background: linear-gradient(135deg, var(--pomegranate), #d32f2f);
-            box-shadow: 0 6px 25px rgba(211, 47, 47, 0.6);
+            background: var(--danger); 
+            box-shadow: 0 0 20px rgba(211, 47, 47, 0.6);
             transform: translateY(-2px);
-            color: #ffffff;
         }
 
         #login-error {
             color: #ff6b6b;
             font-family: 'Lora', serif;
-            font-size: 0.9rem;
+            font-weight: bold;
             margin-top: 15px;
             display: none;
-            background: rgba(183, 28, 28, 0.25);
-            padding: 8px;
-            border: 1px solid rgba(255, 107, 107, 0.4);
-            border-radius: 2px;
         }
 
-        /* --- STRUCTURE PRINCIPALE --- */
+        /* --- APPLICATION PRINCIPALE --- */
         #app-main { 
-            padding: 40px 20px 80px; 
-            max-width: 1440px;
+            padding: 50px 20px 80px; 
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* --- EN-TÊTE NOBLE (BANNER) --- */
+        /* EN-TÊTE */
         .header-container {
-            position: relative;
-            max-width: 950px;
-            margin: 0 auto 40px;
-            padding: 45px 30px;
-            border: 2px solid var(--gold);
-            outline: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative; 
+            max-width: 850px; 
+            margin: 0 auto 40px; 
+            padding: 40px 30px;
+            border: 3px solid var(--gold);
+            outline: 1px solid var(--gold-muted);
             outline-offset: -8px;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.8), var(--shadow-glow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 55, 0.25); 
             text-align: center;
             background: 
-                linear-gradient(rgba(17, 14, 15, 0.88), rgba(25, 15, 18, 0.92)),
+                linear-gradient(rgba(17, 14, 14, 0.75), rgba(17, 14, 14, 0.85)),
                 url('https://i.pinimg.com/736x/30/0d/23/300d235e6587f5185ff6d21115ff784b.jpg');
-            background-size: cover;
+            background-size: cover; 
             background-position: center;
-            border-radius: 4px;
-        }
-
-        .header-arabic-calligraphy {
-            font-family: 'Amiri', serif;
-            font-size: 2.2rem;
-            color: var(--gold-light);
-            margin-bottom: 5px;
-            letter-spacing: 3px;
-            text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
         }
 
         .header-container h1 { 
             font-family: 'Cinzel Decorative', cursive; 
-            font-size: 3.6rem; 
+            font-size: 3.8rem; 
             color: var(--gold);
             margin: 0; 
-            text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 25px rgba(212, 175, 55, 0.3);
-            letter-spacing: 6px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,1), 0 0 20px rgba(212, 175, 55, 0.3); 
+            background: rgba(17, 14, 14, 0.65);
+            display: inline-block; 
+            padding: 10px 40px; 
+            border: 1px solid var(--gold-muted);
+            letter-spacing: 4px;
         }
 
-        .header-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin: 15px auto;
-            color: var(--gold);
-            max-width: 380px;
-            font-size: 0.9rem;
-        }
-
-        .header-divider::before,
-        .header-divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(to var(--direction, right), transparent, var(--gold));
-        }
-        .header-divider::before { --direction: right; }
-        .header-divider::after { --direction: left; }
-
-        .header-subtitle {
-            font-family: 'Lora', serif;
-            font-size: 1.05rem;
-            font-style: italic;
-            color: rgba(253, 250, 240, 0.85);
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-
-        /* STATISTIQUES SANCTUAIRE */
-        .sanctuaire-stats {
+        /* STATISTIQUES COMPTEURS */
+        .stats-bar {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 25px;
             margin-top: 25px;
             padding-top: 20px;
-            border-top: 1px solid rgba(212, 175, 55, 0.25);
+            border-top: 1px solid var(--gold-muted);
         }
 
-        .stat-item {
+        .stat-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 90px;
+            min-width: 85px;
         }
 
-        .stat-valeur {
+        .stat-num {
             font-family: 'Cinzel Decorative', cursive;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: var(--gold);
             font-weight: 700;
         }
 
-        .stat-label {
+        .stat-nom {
             font-family: 'Cinzel', serif;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: rgba(253, 250, 240, 0.7);
+            letter-spacing: 1px;
+            color: rgba(253, 253, 240, 0.7);
         }
 
         /* --- CONSOLE DE GESTION --- */
         .container-gestion {
-            max-width: 950px; 
+            max-width: 850px; 
             margin: 0 auto 50px; 
-            background: linear-gradient(160deg, rgba(22, 17, 19, 0.94), rgba(14, 11, 13, 0.96));
-            padding: 35px; 
+            background: rgba(17, 14, 14, 0.92);
+            padding: 40px; 
             border: 2px solid var(--gold); 
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(139, 28, 33, 0.35); 
-            backdrop-filter: blur(8px);
-            border-radius: 4px;
-            position: relative;
+            outline: 1px solid var(--gold-muted);
+            outline-offset: -7px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(211, 47, 47, 0.3); 
+            backdrop-filter: blur(4px);
         }
 
-        /* BARRE DE CONTRÔLES SUPÉRIEURE */
+        /* CONTRÔLES SUPÉRIEURS */
         .controles-superieurs { 
             display: flex; 
             justify-content: space-between; 
@@ -317,351 +233,238 @@
             gap: 15px; 
         }
 
-        .filtres-categorie { 
+        .filtres-categorie, .controles-droite { 
             display: flex; 
-            gap: 8px; 
+            gap: 10px; 
             align-items: center; 
             flex-wrap: wrap;
         }
         
         .btn-filtre {
-            background: rgba(45, 30, 27, 0.65); 
+            background: rgba(93, 64, 55, 0.6); 
             color: var(--jasmine); 
-            border: 1px solid rgba(212, 175, 55, 0.45);
-            padding: 8px 16px; 
+            border: 1px solid var(--gold);
+            padding: 9px 18px; 
             cursor: pointer; 
             font-family: 'Cinzel', serif; 
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             letter-spacing: 1px;
-            transition: all 0.25s ease;
-            border-radius: 2px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            transition: all 0.25s;
         }
 
         .btn-filtre:hover { 
             background: rgba(212, 175, 55, 0.25); 
-            border-color: var(--gold);
             color: var(--gold-light);
-            transform: translateY(-1px);
         }
 
         .btn-filtre.active { 
-            background: linear-gradient(135deg, var(--gold), #b8942b); 
+            background: var(--gold); 
             color: var(--carpet-black); 
             font-weight: 700;
-            border-color: var(--gold-light);
-            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
-        }
-
-        .controles-droite {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
         }
         
-        /* SELECTEUR D'ANNÉE */
-        .select-wrapper {
-            position: relative;
-        }
-
         #select-annee { 
-            appearance: none;
-            -webkit-appearance: none;
-            background: rgba(30, 20, 22, 0.85);
-            color: var(--gold-light);
-            border: 1px solid var(--gold-muted);
-            padding: 8px 32px 8px 14px;
+            background: rgba(25, 18, 20, 0.9);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 9px 15px;
             font-family: 'Cinzel', serif;
-            font-size: 0.82rem;
-            cursor: pointer;
-            border-radius: 2px;
+            font-size: 0.85rem;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        #select-annee:focus, #select-annee:hover {
-            border-color: var(--gold);
+            cursor: pointer;
         }
 
         #select-annee option { 
             background: var(--carpet-black); 
-            color: var(--jasmine); 
-            padding: 10px;
+            color: var(--gold); 
+            padding: 8px;
         }
 
-        .select-arrow {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: var(--gold);
-            font-size: 0.65rem;
-        }
-
-        /* TOGGLE DE VUE */
         .controles-vue {
             display: flex;
-            border: 1px solid var(--gold-muted);
-            border-radius: 2px;
-            overflow: hidden;
+            gap: 5px;
         }
 
-        .controles-vue .btn-filtre {
-            border: none;
-            border-radius: 0;
-            padding: 7px 12px;
-        }
-
-        /* BORNE DE RECHERCHE */
+        /* RECHERCHE */
         .borne-recherche { 
-            margin-bottom: 30px; 
+            margin-bottom: 25px; 
             position: relative;
-        }
-
-        .recherche-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gold);
-            font-size: 1.1rem;
-            pointer-events: none;
-            opacity: 0.8;
         }
 
         #input-recherche {
             width: 100%; 
-            padding: 15px 45px 15px 48px; 
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid var(--gold-muted); 
-            color: var(--gold-light); 
+            padding: 15px; 
+            background: rgba(212, 175, 55, 0.08);
+            border: 2px solid var(--gold); 
+            color: var(--gold); 
             font-family: 'Lora', serif;
-            font-size: 1.05rem; 
-            border-radius: 3px;
+            font-size: 1.1rem; 
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
         #input-recherche::placeholder {
-            color: rgba(212, 175, 55, 0.55);
+            color: rgba(212, 175, 55, 0.6);
             font-style: italic;
         }
 
         #input-recherche:focus { 
-            background: rgba(212, 175, 55, 0.08); 
-            border-color: var(--gold);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+            background: rgba(212, 175, 55, 0.16); 
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
         }
 
-        .btn-clear-search {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: var(--gold);
-            cursor: pointer;
-            font-size: 1.1rem;
-            display: none;
-        }
-
-        /* --- FORMULAIRE D'AJOUT --- */
-        .form-titre {
-            font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            color: var(--gold);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-titre::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(to right, var(--gold-muted), transparent);
-        }
-
+        /* FORMULAIRE D'AJOUT */
         #formulaire-livre { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 16px; 
         }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .input-group label {
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            color: var(--gold);
-            text-transform: uppercase;
-        }
-
-        #formulaire-livre input { 
+        #formulaire-livre input, .edit-form input { 
             padding: 13px 15px; 
-            border: 1px solid rgba(212, 175, 55, 0.35); 
-            background: rgba(18, 12, 14, 0.65);
-            color: var(--jasmine); 
+            border: 1px solid var(--gold); 
+            background: rgba(93, 64, 55, 0.45);
+            color: var(--gold); 
             font-family: 'Lora', serif; 
-            font-size: 0.95rem; 
+            font-size: 1.05rem; 
             outline: none;
-            border-radius: 2px;
-            transition: all 0.3s;
+            transition: all 0.25s;
         }
 
-        #formulaire-livre input:focus {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.08);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        #formulaire-livre input::placeholder, .edit-form input::placeholder {
+            color: rgba(212, 175, 55, 0.55);
+        }
+
+        #formulaire-livre input:focus, .edit-form input:focus {
+            background: rgba(93, 64, 55, 0.7);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
         #formulaire-livre button { 
             grid-column: span 2; 
-            background: linear-gradient(135deg, var(--carpet-red), var(--pomegranate)); 
+            background: var(--pomegranate); 
             color: var(--jasmine); 
-            border: 1px solid var(--gold); 
+            border: 2px solid var(--gold); 
             padding: 15px; 
             cursor: pointer; 
             font-family: 'Cinzel', serif; 
             font-weight: 700;
-            font-size: 0.95rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(139, 28, 33, 0.4);
-            transition: all 0.3s ease; 
-            margin-top: 5px;
-            border-radius: 2px;
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+            transition: all 0.3s; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         #formulaire-livre button:hover { 
-            background: linear-gradient(135deg, var(--pomegranate), #d32f2f);
-            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.6);
+            background: var(--danger); 
+            box-shadow: 0 0 20px rgba(211, 47, 47, 0.6);
             transform: translateY(-2px);
         }
 
-        /* TIROIR OUTILS & ARCHIVES */
-        .tools-accordion {
-            margin-top: 25px;
-            border-top: 1px solid rgba(212, 175, 55, 0.25);
-            padding-top: 15px;
-        }
-
-        .tools-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            padding: 8px 0;
-            color: var(--gold);
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            user-select: none;
-        }
-
-        .tools-header:hover {
-            color: var(--gold-light);
-        }
-
-        .tools-body {
-            display: none;
-            padding: 18px 0 5px;
+        /* ZONE D'ARCHIVES & IMPORT/EXPORT */
+        .zone-archives {
+            margin-top: 25px; 
+            border-top: 1px solid var(--gold-muted); 
+            padding-top: 20px; 
+            display: flex; 
+            flex-direction: column; 
             gap: 12px;
-            flex-direction: column;
         }
 
-        .tools-body.ouvert {
-            display: flex;
-        }
-
-        .tools-buttons {
-            display: flex;
-            gap: 10px;
+        .zone-archives-btns {
+            display: flex; 
+            gap: 10px; 
             flex-wrap: wrap;
         }
 
-        .btn-tool {
+        .btn-archive {
             flex: 1;
-            min-width: 200px;
-            padding: 10px 15px;
-            background: rgba(30, 20, 22, 0.75);
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            min-width: 220px;
+            padding: 11px 15px;
+            background: rgba(93, 64, 55, 0.5);
             color: var(--jasmine);
+            border: 1px solid var(--gold);
             font-family: 'Cinzel', serif;
             font-size: 0.8rem;
             cursor: pointer;
-            border-radius: 2px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            letter-spacing: 0.5px;
             transition: all 0.25s;
+            text-align: center;
         }
 
-        .btn-tool:hover {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.15);
+        .btn-archive:hover {
+            background: rgba(212, 175, 55, 0.25);
             color: var(--gold-light);
         }
 
-        /* --- ÉTAGÈRE : VUE GRILLE (DÉFAUT) --- */
+        /* --- ÉTAGÈRE : VUE GRILLE --- */
         #mon-etagere { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
             gap: 35px; 
             max-width: 1400px; 
             margin: 0 auto; 
         }
 
         .livre {
-            background: linear-gradient(180deg, #2b1b17 0%, #1a1213 100%); 
-            border: 1px solid rgba(212, 175, 55, 0.35);
+            background-color: var(--shelf-dark); 
+            border: 2px solid rgba(212, 175, 55, 0.5);
             display: flex; 
             flex-direction: column; 
-            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 1px rgba(212, 175, 55, 0.4); 
+            transition: all 0.3s ease;
+            box-shadow: 8px 8px 20px rgba(0,0,0,0.7), 0 0 1px rgba(212, 175, 55, 0.4); 
             position: relative;
-            border-radius: 4px;
-            overflow: hidden;
         }
 
         .livre:hover { 
-            transform: translateY(-8px); 
+            transform: translateY(-6px); 
             border-color: var(--gold);
-            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.3); 
+            box-shadow: 12px 14px 25px rgba(0,0,0,0.9), 0 0 20px rgba(212, 175, 55, 0.25); 
         }
 
-        /* RELIURE / TRANCHE EFFET LIVRE */
+        /* Reliure latérale effet livre */
         .livre::before {
             content: "";
             position: absolute;
             left: 0;
             top: 0;
             bottom: 0;
-            width: 6px;
-            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(212, 175, 55, 0.3) 50%, rgba(0,0,0,0.5));
+            width: 5px;
+            background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(212, 175, 55, 0.35) 50%, rgba(0,0,0,0.4));
             z-index: 10;
         }
 
+        /* BADGE STATUT (ANGLES NETS) */
+        .badge-statut {
+            position: absolute; 
+            top: 10px; 
+            right: 10px; 
+            padding: 5px 12px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.72rem; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff; 
+            z-index: 15; 
+            box-shadow: 0 3px 6px rgba(0,0,0,0.6);
+            cursor: pointer; 
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .badge-statut:hover { 
+            transform: scale(1.08); 
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
         /* COUVERTURE DU LIVRE */
-        .livre-couverture-wrap {
-            position: relative;
+        .livre-cover-container {
             width: 100%;
             height: 330px;
-            background: #080607;
+            background: #000000;
+            border-bottom: 2px solid var(--gold);
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -669,73 +472,32 @@
             cursor: pointer;
         }
 
-        .livre-couverture-wrap::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(13, 10, 11, 0.8) 0%, transparent 40%);
-            pointer-events: none;
-        }
-
         .livre img { 
             width: 100%; 
             height: 100%; 
             object-fit: cover; 
-            transition: transform 0.5s ease;
+            transition: transform 0.4s ease;
         }
 
         .livre:hover img {
-            transform: scale(1.04);
+            transform: scale(1.03);
         }
 
-        /* SCEAU / BADGE DE STATUT */
-        .badge-statut {
-            position: absolute; 
-            top: 12px; 
-            right: 12px; 
-            padding: 5px 12px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.68rem; 
-            font-weight: 700; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 2px; 
-            color: #ffffff; 
-            z-index: 15; 
-            box-shadow: 0 3px 8px rgba(0,0,0,0.7);
-            cursor: pointer; 
-            transition: all 0.25s ease;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(4px);
-        }
-
-        .badge-statut:hover { 
-            transform: scale(1.08); 
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
-        }
-
-        /* INFORMATIONS DU LIVRE (STYLE PARCHEMIN ANCIEN) */
+        /* INFOS LIVRE (PARCHEMIN NOBLE) */
         .livre-info {
-            padding: 20px 18px; 
+            padding: 20px; 
             text-align: center; 
             flex-grow: 1; 
-            background: linear-gradient(180deg, #f7f1e1 0%, #ede3cb 100%);
-            color: #1a1210;
+            background-color: var(--jasmine);
+            background-image: 
+                linear-gradient(rgba(253, 253, 240, 0.88), rgba(253, 253, 240, 0.88)), 
+                url('https://i.pinimg.com/736x/a7/0f/c1/a70fc1763277a5640da70dddd6f05da0.jpg');
+            background-size: cover; 
+            color: var(--carpet-black);
+            cursor: pointer;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            cursor: pointer;
-            border-top: 2px solid var(--gold);
-            position: relative;
-        }
-
-        .livre-info::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
-            background-size: 8px 8px;
-            pointer-events: none;
         }
 
         .livre h2 { 
@@ -743,26 +505,22 @@
             font-size: 1.15rem; 
             font-weight: 700; 
             margin: 0 0 6px 0; 
-            color: #210d10;
+            color: #1a0f11;
             line-height: 1.35;
         }
 
         .livre h3 { 
-            font-size: 0.92rem; 
+            font-size: 0.95rem; 
             font-style: italic; 
-            color: #4a2840; 
-            margin: 0 0 10px 0; 
-            font-weight: 500;
+            color: var(--carpet-purple); 
+            margin: 0 0 8px 0; 
         }
 
-        .livre-annee-tag { 
-            display: inline-block;
-            margin: 6px auto 0;
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem; 
+        .livre-annee { 
+            font-size: 0.85rem; 
             color: var(--carpet-red); 
-            font-weight: 700; 
-            letter-spacing: 1px;
+            font-weight: bold; 
+            margin-top: 6px; 
             border-top: 1px solid rgba(139, 28, 33, 0.2);
             padding-top: 6px;
         }
@@ -771,8 +529,8 @@
         .actions { 
             display: grid; 
             grid-template-columns: 1fr; 
-            background: #120d0f; 
-            border-top: 1px solid rgba(212, 175, 55, 0.25);
+            background: var(--carpet-black); 
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .btn-action { 
@@ -782,14 +540,10 @@
             color: var(--gold); 
             background: transparent; 
             font-family: 'Cinzel', serif; 
-            font-size: 0.8rem; 
+            font-size: 0.85rem; 
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            transition: all 0.25s; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            transition: all 0.2s; 
         }
 
         .bouton-modifier:hover { 
@@ -814,28 +568,22 @@
             transform: translateX(6px); 
         }
 
-        #mon-etagere.mode-liste .livre-couverture-wrap { 
-            width: 110px; 
+        #mon-etagere.mode-liste .livre-cover-container { 
+            width: 105px; 
             height: 100%; 
+            border-bottom: none; 
+            border-right: 2px solid var(--gold); 
             flex-shrink: 0;
-        }
-
-        #mon-etagere.mode-liste .livre img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
         }
 
         #mon-etagere.mode-liste .livre-info { 
             text-align: left; 
             padding: 15px 25px; 
-            justify-content: center;
-            border-top: none;
-            border-left: 2px solid var(--gold);
+            justify-content: center; 
         }
 
         #mon-etagere.mode-liste .livre h2 { 
-            font-size: 1.25rem; 
+            font-size: 1.3rem; 
             margin-bottom: 4px; 
         }
 
@@ -844,8 +592,8 @@
             margin-bottom: 4px;
         }
 
-        #mon-etagere.mode-liste .livre-annee-tag {
-            margin: 0;
+        #mon-etagere.mode-liste .livre-annee {
+            margin-top: 2px;
             border-top: none;
             padding-top: 0;
         }
@@ -853,8 +601,8 @@
         #mon-etagere.mode-liste .actions { 
             display: flex; 
             flex-direction: column; 
-            width: 160px; 
-            border-left: 1px solid rgba(212, 175, 55, 0.3); 
+            width: 150px; 
+            border-left: 2px solid var(--gold); 
             border-top: none; 
             flex-shrink: 0;
         }
@@ -866,83 +614,71 @@
 
         #mon-etagere.mode-liste .badge-statut { 
             top: 15px; 
-            right: 175px; 
+            right: 165px; 
         }
 
-        /* --- ÉTAT VIDE (EMPTY STATE) --- */
+        /* --- ÉTAT VIDE --- */
         .etat-vide {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 70px 20px;
-            background: rgba(20, 15, 17, 0.7);
-            border: 1px dashed var(--gold-muted);
-            border-radius: 4px;
-        }
-
-        .etat-vide-icone {
-            font-size: 3rem;
-            color: var(--gold);
-            margin-bottom: 15px;
-            opacity: 0.8;
+            padding: 60px 20px;
+            background: rgba(17, 14, 14, 0.7);
+            border: 2px dashed var(--gold-muted);
         }
 
         .etat-vide h3 {
             font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--gold);
             margin-bottom: 8px;
         }
 
         .etat-vide p {
             font-style: italic;
-            color: rgba(253, 250, 240, 0.65);
+            color: rgba(253, 253, 240, 0.7);
         }
 
-        /* --- MODALES REHAUSSÉES --- */
+        /* --- MODALES --- */
         .modal-overlay {
             position: fixed; 
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 3, 4, 0.88); 
+            background: rgba(0, 0, 0, 0.88); 
             display: none; 
             justify-content: center; 
             align-items: center;
             z-index: 3000; 
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(6px);
             padding: 20px;
-            animation: fadeIn 0.25s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .modal-content {
-            background: linear-gradient(150deg, #221517 0%, #150e10 100%);
-            color: var(--jasmine);
+            background-image: 
+                linear-gradient(rgba(253, 253, 240, 0.92), rgba(253, 253, 240, 0.92)),
+                url('https://i.pinimg.com/736x/b5/b3/6c/b5b36cd3066c3e650885584abb88bc4e.jpg');
+            background-size: cover; 
+            background-position: center; 
+            color: var(--carpet-black);
             width: 100%; 
             max-width: 820px; 
-            min-height: 420px; 
+            min-height: 400px; 
             display: grid; 
-            grid-template-columns: 280px 1fr; 
-            border: 2px solid var(--gold); 
-            outline: 1px solid rgba(212, 175, 55, 0.3);
+            grid-template-columns: 260px 1fr; 
+            border: 3px solid var(--gold); 
+            outline: 1px solid var(--gold-muted);
             outline-offset: -7px;
             position: relative; 
-            padding: 0; 
-            box-sizing: border-box; 
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.9), var(--shadow-glow);
-            border-radius: 4px;
+            padding: 30px; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
         }
 
-        .modal-cover-side {
-            background: #080607;
-            position: relative;
+        .modal-img-wrap {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border: 1px solid var(--gold);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-right: 1px solid rgba(212, 175, 55, 0.3);
             overflow: hidden;
         }
 
@@ -953,9 +689,9 @@
         }
 
         .modal-details { 
-            padding: 40px 35px; 
+            padding: 10px 25px 10px 35px; 
             overflow-y: auto; 
-            max-height: 80vh; 
+            height: 100%; 
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -963,492 +699,342 @@
 
         .modal-details h2 { 
             font-family: 'Lora', serif; 
-            font-size: 2rem;
-            color: var(--gold-light); 
-            margin: 0 0 10px 0; 
-            line-height: 1.3;
+            color: #1a0f11; 
+            font-size: 1.8rem;
+            margin: 0 0 8px 0; 
         }
 
         .modal-details h4 {
             font-family: 'Lora', serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-style: italic;
-            color: rgba(253, 250, 240, 0.85);
+            color: var(--carpet-purple);
             margin: 0 0 15px 0;
-            font-weight: 400;
-        }
-
-        .modal-statut-pill {
-            display: inline-block;
-            align-self: flex-start;
-            padding: 5px 14px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            border-radius: 2px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .modal-info-grid {
-            display: grid;
-            gap: 15px;
-            margin: 15px 0 25px;
-            padding: 15px 0;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .modal-info-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-info-item span:first-child {
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .close-modal { 
             position: absolute; 
             top: 15px; 
             right: 20px; 
-            font-size: 2rem; 
-            color: var(--gold); 
+            font-size: 2.2rem; 
+            color: var(--carpet-red); 
             cursor: pointer; 
             z-index: 20; 
             line-height: 1; 
-            transition: all 0.2s;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.4);
+            transition: color 0.2s;
         }
 
         .close-modal:hover {
-            color: #ffffff;
-            background: var(--carpet-red);
-            transform: rotate(90deg);
+            color: var(--danger);
         }
 
-        /* FORMULAIRE D'ÉDITION */
+        /* MODALE D'ÉDITION */
         .modal-edit-box {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr !important;
             max-width: 580px;
         }
 
         .modal-edit-box .modal-details {
-            padding: 35px 40px;
-        }
-
-        .modal-edit-title {
-            font-family: 'Cinzel Decorative', cursive;
-            font-size: 1.6rem;
-            color: var(--gold);
-            text-align: center;
-            margin-bottom: 25px;
-            letter-spacing: 2px;
+            padding: 10px 20px;
         }
 
         .edit-form { 
             display: grid; 
-            gap: 16px; 
+            gap: 15px; 
         }
 
         .edit-form label { 
             font-family: 'Cinzel', serif; 
-            color: var(--gold); 
-            font-size: 0.8rem; 
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            color: var(--carpet-red); 
+            font-size: 0.85rem; 
+            font-weight: bold; 
             display: block; 
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .edit-form input { 
-            background: rgba(10, 7, 8, 0.7); 
-            border: 1px solid rgba(212, 175, 55, 0.4); 
-            color: var(--jasmine); 
+            background: rgba(255, 255, 255, 0.85); 
+            border: 1px solid var(--gold); 
+            color: #110e0e; 
             width: 100%; 
-            padding: 12px 14px;
-            font-family: 'Lora', serif;
+            padding: 12px;
             font-size: 1rem;
-            border-radius: 2px;
-            outline: none;
-            transition: all 0.25s;
-        }
-
-        .edit-form input:focus {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.1);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
         }
         
         .modal-actions { 
             display: flex; 
-            gap: 14px; 
+            gap: 12px; 
             margin-top: 15px; 
         }
 
         .btn-modal { 
             flex: 1; 
-            padding: 14px; 
+            padding: 13px; 
             border: none; 
             cursor: pointer; 
             font-family: 'Cinzel', serif; 
             font-weight: 700;
             font-size: 0.85rem;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            transition: all 0.3s; 
-            border-radius: 2px;
+            transition: all 0.25s; 
         }
 
         .btn-save { 
-            background: linear-gradient(135deg, var(--gold), #b8942b); 
-            color: var(--carpet-black); 
-            border: 1px solid var(--gold-light); 
+            background: var(--pomegranate); 
+            color: white; 
+            border: 1px solid var(--gold); 
         }
 
         .btn-save:hover { 
-            background: linear-gradient(135deg, var(--gold-light), var(--gold));
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-            transform: translateY(-1px);
+            background: var(--danger); 
         }
 
         .btn-delete { 
-            background: rgba(183, 28, 28, 0.25); 
-            color: #ff8585; 
-            border: 1px solid rgba(183, 28, 28, 0.5);
+            background: var(--danger); 
+            color: white; 
         }
 
         .btn-delete:hover { 
-            background: var(--danger); 
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(183, 28, 28, 0.5);
-            transform: translateY(-1px);
+            background: #7f0000; 
         }
 
-        /* --- TOAST NOTIFICATIONS MAJESTUEUSES --- */
+        /* --- TOASTS --- */
         #toast-container {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 25px;
+            right: 25px;
             z-index: 4000;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             pointer-events: none;
         }
 
         .toast-msg {
-            background: linear-gradient(145deg, rgba(25, 18, 20, 0.98), rgba(15, 11, 13, 0.98));
-            border: 1px solid var(--gold);
+            background: rgba(17, 14, 14, 0.96);
+            border: 2px solid var(--gold);
             color: var(--jasmine);
-            padding: 14px 22px;
-            border-radius: 3px;
+            padding: 13px 20px;
             font-family: 'Lora', serif;
             font-size: 0.95rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px rgba(212, 175, 55, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: slideIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            max-width: 380px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.8);
             pointer-events: auto;
-        }
-
-        .toast-icon {
-            color: var(--gold);
-            font-size: 1.2rem;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            max-width: 360px;
         }
 
         /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 768px) {
-            #app-main { padding: 25px 15px 60px; }
+            #app-main { padding: 30px 15px 60px; }
             .header-container { padding: 30px 15px; }
-            .header-container h1 { font-size: 2.5rem; letter-spacing: 3px; }
-            .header-arabic-calligraphy { font-size: 1.8rem; }
+            .header-container h1 { font-size: 2.5rem; padding: 10px 20px; }
             
-            .container-gestion { padding: 22px 18px; }
+            .container-gestion { padding: 25px 20px; }
             .controles-superieurs { justify-content: center; }
-            .filtres-categorie { justify-content: center; width: 100%; }
-            .controles-droite { justify-content: center; width: 100%; }
+            .filtres-categorie, .controles-droite { justify-content: center; width: 100%; }
             
             #formulaire-livre { grid-template-columns: 1fr; }
-            #formulaire-livre button { grid-column: span 1 !important; }
+            #formulaire-livre input, #formulaire-livre button { grid-column: span 1 !important; }
             
             #mon-etagere.mode-liste .livre { 
                 flex-direction: column; 
                 height: auto; 
             }
-            #mon-etagere.mode-liste .livre-couverture-wrap { 
+            #mon-etagere.mode-liste .livre-cover-container { 
                 width: 100%; 
                 height: 220px; 
+                border-right: none;
+                border-bottom: 2px solid var(--gold);
             }
             #mon-etagere.mode-liste .livre-info { 
                 text-align: center; 
-                border-left: none;
-                border-top: 2px solid var(--gold);
             }
             #mon-etagere.mode-liste .actions { 
                 width: 100%; 
                 flex-direction: row; 
                 border-left: none; 
-                border-top: 1px solid rgba(212, 175, 55, 0.3); 
+                border-top: 2px solid var(--gold); 
             }
             #mon-etagere.mode-liste .badge-statut { 
-                top: 12px; 
-                right: 12px; 
+                top: 10px; 
+                right: 10px; 
             }
 
             .modal-content { 
                 grid-template-columns: 1fr !important; 
-                min-height: auto; 
+                height: auto !important; 
                 max-height: 90vh; 
+                overflow-y: auto; 
+                padding: 20px;
             }
-            .modal-cover-side { 
+            .modal-img-wrap { 
                 height: 220px; 
-                border-right: none;
-                border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+                margin-bottom: 15px; 
             }
-            .modal-details { padding: 25px 20px; }
+            .modal-details { 
+                padding: 10px 0; 
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ÉCRAN DE CONNEXION / SANCTUAIRE -->
+    <!-- ÉCRAN DE CONNEXION -->
     <div id="login-screen">
         <div class="login-box">
-            <div class="login-ornament-top">✦ ⚜ ✦</div>
-            <div class="login-arabic">المَكْتَبَة</div>
             <h1>Sanctuaire</h1>
-            <p class="login-subtitle">Veuillez prononcer le mot de passe du sanctuaire pour déverrouiller vos ouvrages.</p>
-            
-            <div class="login-input-group">
-                <input type="password" id="login-password" placeholder="Mot de passe secret" onkeypress="if(event.key === 'Enter') verifierMotDePasse()" autofocus>
-            </div>
-            
+            <input type="password" id="login-password" placeholder="Mot de passe" onkeypress="if(event.key === 'Enter') verifierMotDePasse()" autofocus>
             <button onclick="verifierMotDePasse()">Déverrouiller la Mktaba</button>
-            <p id="login-error">L'accès au sanctuaire vous est refusé.</p>
+            <p id="login-error">L'accès vous est refusé.</p>
         </div>
     </div>
 
     <!-- APPLICATION PRINCIPALE -->
     <div id="app-main" style="display: none;">
         
-        <!-- BANNIÈRE MAJESTUEUSE -->
-        <header class="header-container">
-            <div class="header-arabic-calligraphy">المَكْتَبَة الشَّخْصِيَّة</div>
+        <!-- EN-TÊTE -->
+        <div class="header-container">
             <h1>Mktaba</h1>
-            <div class="header-divider">✦ ────── ⚜ ────── ✦</div>
-            <p class="header-subtitle">Sanctuaire Littéraire Privé & Gardien de Savoirs</p>
             
-            <!-- Statistiques dynamiques du sanctuaire -->
-            <div class="sanctuaire-stats">
-                <div class="stat-item">
-                    <span class="stat-valeur" id="stat-total">0</span>
-                    <span class="stat-label">Ouvrages</span>
+            <!-- Compteurs de la bibliothèque -->
+            <div class="stats-bar">
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-total">0</span>
+                    <span class="stat-nom">Total</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-valeur" id="stat-lus" style="color: #66bb6a;">0</span>
-                    <span class="stat-label">Lus</span>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-lus" style="color: #66bb6a;">0</span>
+                    <span class="stat-nom">Lus</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-valeur" id="stat-encours" style="color: #ffa726;">0</span>
-                    <span class="stat-label">En cours</span>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-encours" style="color: #ffa726;">0</span>
+                    <span class="stat-nom">En cours</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-valeur" id="stat-paslu" style="color: #b0bec5;">0</span>
-                    <span class="stat-label">À lire</span>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-paslu" style="color: #bdbdbd;">0</span>
+                    <span class="stat-nom">À lire</span>
                 </div>
             </div>
-        </header>
+        </div>
 
         <!-- CONSOLE DE GESTION -->
-        <section class="container-gestion">
+        <div class="container-gestion">
             
             <div class="controles-superieurs">
-                <!-- Filtres par statut -->
+                <!-- Filtres Catégories -->
                 <div class="filtres-categorie">
-                    <button class="btn-filtre active" onclick="changerFiltreStatut('tous', this)">
-                        <span>✦</span> Tous
-                    </button>
-                    <button class="btn-filtre" onclick="changerFiltreStatut('lu', this)">
-                        <span>✓</span> Lus
-                    </button>
-                    <button class="btn-filtre" onclick="changerFiltreStatut('en cours', this)">
-                        <span>⏳</span> En cours
-                    </button>
-                    <button class="btn-filtre" onclick="changerFiltreStatut('pas lu', this)">
-                        <span>🔖</span> À lire
-                    </button>
+                    <button class="btn-filtre active" onclick="changerFiltreStatut('tous', this)">Tous</button>
+                    <button class="btn-filtre" onclick="changerFiltreStatut('lu', this)">Lus</button>
+                    <button class="btn-filtre" onclick="changerFiltreStatut('en cours', this)">En cours</button>
+                    <button class="btn-filtre" onclick="changerFiltreStatut('pas lu', this)">À lire</button>
                 </div>
                 
                 <div class="controles-droite">
                     <!-- Filtre Année -->
-                    <div class="select-wrapper">
-                        <select id="select-annee" onchange="changerFiltreAnnee()">
-                            <option value="toutes">Toutes les années</option>
-                        </select>
-                        <span class="select-arrow">▼</span>
-                    </div>
+                    <select id="select-annee" onchange="changerFiltreAnnee()">
+                        <option value="toutes">Toutes les années</option>
+                    </select>
 
-                    <!-- Contrôle vue Grille / Liste -->
+                    <!-- Toggle Vue Grille / Liste -->
                     <div class="controles-vue">
-                        <button class="btn-filtre active" id="btn-vue-grille" onclick="changerVue('grille')" title="Vue Grille">⊞ Grille</button>
-                        <button class="btn-filtre" id="btn-vue-liste" onclick="changerVue('liste')" title="Vue Liste">☰ Liste</button>
+                        <button class="btn-filtre active" id="btn-vue-grille" onclick="changerVue('grille')">⊞ Grille</button>
+                        <button class="btn-filtre" id="btn-vue-liste" onclick="changerVue('liste')">☰ Liste</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Borne de recherche -->
+            <!-- Barre de Recherche -->
             <div class="borne-recherche">
-                <span class="recherche-icon">🔍</span>
-                <input type="text" id="input-recherche" placeholder="Rechercher par titre, par auteur ou par année...">
-                <button type="button" class="btn-clear-search" id="btn-clear-search" onclick="effacerRecherche()">✕</button>
+                <input type="text" id="input-recherche" placeholder="Rechercher un titre ou un auteur...">
             </div>
 
-            <!-- Formulaire d'ajout d'ouvrage -->
-            <div class="form-titre">✦ Inscrire un Nouvel Ouvrage</div>
+            <!-- Formulaire d'Ajout de Livre -->
             <form id="formulaire-livre">
-                <div class="input-group">
-                    <label for="Titre">Titre de l'œuvre *</label>
-                    <input type="text" id="Titre" placeholder="Ex: Les Mille et Une Nuits" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="Auteur">Auteur / Traducteur *</label>
-                    <input type="text" id="Auteur" placeholder="Ex: Anonyme / Galland" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="Image">Lien de la couverture (URL)</label>
-                    <input type="url" id="Image" placeholder="https://exemple.com/couverture.jpg">
-                </div>
-                
-                <div class="input-group">
-                    <label for="Annee">Année de lecture</label>
-                    <input type="number" id="Annee" min="1900" max="2099" step="1" placeholder="Ex: 2026">
-                </div>
-                
-                <button type="submit">✦ Inscrire dans la Mktaba</button>
+                <input type="text" id="Titre" placeholder="Titre" required>
+                <input type="text" id="Auteur" placeholder="Auteur" required>
+                <input type="url" id="Image" placeholder="Lien image URL">
+                <input type="number" id="Annee" min="1900" max="2099" step="1" placeholder="Année de lecture">
+                <button type="submit">Ajouter à la base de données</button>
             </form>
 
-            <!-- Tiroir Outils & Archives (Import / Export) -->
-            <div class="tools-accordion">
-                <div class="tools-header" onclick="toggleTiroirOutils()">
-                    <span>📜 Archives & Sauvegardes du Sanctuaire</span>
-                    <span id="tools-chevron">▼</span>
+            <!-- Zone d'Import / Export -->
+            <div class="zone-archives">
+                <div class="zone-archives-btns">
+                    <button type="button" class="btn-archive" onclick="document.getElementById('import-txt-mktaba').click()" style="background: rgba(245, 127, 23, 0.45);">
+                        📤 Transférer ma sauvegarde (Import TXT vers Firebase)
+                    </button>
+                    <button type="button" class="btn-archive" onclick="exporterSauvegardeCloud()" style="background: rgba(46, 125, 50, 0.45);">
+                        📥 Sauvegarder ma bibliothèque (Export TXT)
+                    </button>
+                    <button type="button" class="btn-archive" onclick="document.getElementById('import-csv').click()" style="background: rgba(93, 64, 55, 0.6);">
+                        📜 Importer depuis Goodreads (CSV)
+                    </button>
                 </div>
-                
-                <div class="tools-body" id="tools-body">
-                    <div class="tools-buttons">
-                        <button type="button" class="btn-tool" onclick="exporterSauvegardeCloud()">
-                            <span>📥</span> Exporter ma collection (Fichier TXT)
-                        </button>
-                        <button type="button" class="btn-tool" onclick="document.getElementById('import-txt-mktaba').click()">
-                            <span>📤</span> Importer sauvegarde TXT vers Cloud
-                        </button>
-                        <button type="button" class="btn-tool" onclick="document.getElementById('import-csv').click()">
-                            <span>📖</span> Importer CSV Goodreads
-                        </button>
-                    </div>
-                    <!-- Inputs masqués pour upload -->
-                    <input type="file" id="import-txt-mktaba" accept=".txt" style="display: none;" onchange="importerDonneesFirebase(event)">
-                    <input type="file" id="import-csv" accept=".csv" style="display: none;" onchange="importerGoodreadsCSV(event)">
-                </div>
+                <input type="file" id="import-txt-mktaba" accept=".txt" style="display: none;" onchange="importerDonneesFirebase(event)">
+                <input type="file" id="import-csv" accept=".csv" style="display: none;" onchange="importerGoodreadsCSV(event)">
             </div>
 
-        </section>
+        </div>
 
         <!-- ÉTAGÈRE DES LIVRES -->
-        <main id="mon-etagere"></main>
+        <div id="mon-etagere"></div>
 
     </div>
 
-    <!-- MODALE : DÉTAILS DE L'OUVRAGE -->
+    <!-- MODALE : DÉTAILS DU LIVRE -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <span class="close-modal" onclick="fermerModales()" title="Fermer">&times;</span>
-            <div class="modal-cover-side">
+            <span class="close-modal" onclick="fermerModales()">&times;</span>
+            <div class="modal-img-wrap">
                 <img src="" alt="Couverture" class="modal-img" id="modalImg">
             </div>
             <div class="modal-details">
                 <div>
-                    <span id="modalStatutPill" class="modal-statut-pill">Statut</span>
-                    <h2 id="modalTitre">Titre du livre</h2>
+                    <h2 id="modalTitre">Titre</h2>
                     <h4 id="modalAuteur">Auteur</h4>
-                    
-                    <div class="modal-info-grid">
-                        <div class="modal-info-item">
-                            <span>Année de lecture</span>
-                            <strong id="modalAnnee" style="color: var(--gold-light);">Non renseignée</strong>
-                        </div>
-                        <div class="modal-info-item">
-                            <span>Emplacement</span>
-                            <span style="color: rgba(253, 250, 240, 0.75);">Sanctuaire Cloud Firebase</span>
-                        </div>
-                    </div>
+                    <p id="modalAnnee" class="livre-annee" style="font-size: 1rem; border-top: none; padding-top: 0;"></p>
                 </div>
-
                 <div class="modal-actions" style="margin-top: 20px;">
-                    <button class="btn-modal btn-save" onclick="ouvrirEditionDepuisDetails()">Modifier l'ouvrage</button>
+                    <button class="btn-modal btn-save" onclick="ouvrirEditionDepuisDetails()">Modifier</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODALE : MODIFICATION D'UN OUVRAGE -->
+    <!-- MODALE : MODIFIER L'OUVRAGE -->
     <div class="modal-overlay" id="modalEditOverlay">
         <div class="modal-content modal-edit-box">
-            <span class="close-modal" onclick="fermerModales()" title="Fermer">&times;</span>
+            <span class="close-modal" onclick="fermerModales()">&times;</span>
             <div class="modal-details">
-                <h2 class="modal-edit-title">✦ Rectifier l'Ouvrage ✦</h2>
-                
+                <h2 style="font-family: 'Cinzel Decorative', cursive; color: var(--carpet-red); text-shadow: none; text-align: center; margin-bottom: 20px;">Modifier l'Ouvrage</h2>
                 <div class="edit-form">
                     <input type="hidden" id="editId">
                     <div>
-                        <label for="editTitre">Titre de l'Œuvre</label>
+                        <label>Titre de l'Œuvre</label>
                         <input type="text" id="editTitre" required>
                     </div>
                     <div>
-                        <label for="editAuteur">Auteur / Écrivain</label>
+                        <label>Auteur</label>
                         <input type="text" id="editAuteur" required>
                     </div>
                     <div>
-                        <label for="editImg">Lien de la couverture (URL)</label>
+                        <label>Lien de l'image</label>
                         <input type="text" id="editImg">
                     </div>
                     <div>
-                        <label for="editAnnee">Année de lecture</label>
+                        <label>Année de lecture</label>
                         <input type="number" id="editAnnee" min="1900" max="2099" step="1" placeholder="Ex: 2026">
                     </div>
-                    
                     <div class="modal-actions">
-                        <button class="btn-modal btn-save" onclick="appliquerModifications()">✦ Enregistrer</button>
-                        <button class="btn-modal btn-delete" onclick="supprimerLivre()">Retirer de la Mktaba</button>
+                        <button class="btn-modal btn-save" onclick="appliquerModifications()">Sauvegarder</button>
+                        <button class="btn-modal btn-delete" onclick="supprimerLivre()">Supprimer</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CONTENEUR DES NOTIFICATIONS TOAST -->
+    <!-- CONTENEUR NOTIFICATIONS TOAST -->
     <div id="toast-container"></div>
 
     <script>
@@ -1475,18 +1061,13 @@
             } else {
                 const err = document.getElementById("login-error");
                 err.style.display = "block";
-                setTimeout(() => { err.style.display = "none"; }, 4000);
+                setTimeout(() => { err.style.display = "none"; }, 3500);
             }
         }
 
         function deverrouillerApp() {
-            const loginScreen = document.getElementById("login-screen");
-            loginScreen.style.opacity = "0";
-            loginScreen.style.transition = "opacity 0.5s ease";
-            setTimeout(() => {
-                loginScreen.style.display = "none";
-                document.getElementById("app-main").style.display = "block";
-            }, 450);
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("app-main").style.display = "block";
             initialiserEcouteurFirebase();
         }
 
@@ -1506,23 +1087,22 @@
         let filtreActuelAnnee = 'toutes';
         const etagere = document.getElementById("mon-etagere");
 
-        // --- GESTIONNAIRE DE NOTIFICATIONS TOAST ÉLÉGANTES ---
-        function notifier(message, icon = "✦") {
+        // --- NOTIFICATIONS TOAST ---
+        function notifier(message) {
             const container = document.getElementById("toast-container");
             const toast = document.createElement("div");
             toast.className = "toast-msg";
-            toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+            toast.innerText = message;
             container.appendChild(toast);
 
             setTimeout(() => {
                 toast.style.opacity = "0";
-                toast.style.transform = "translateX(50px)";
-                toast.style.transition = "all 0.35s ease";
-                setTimeout(() => toast.remove(), 350);
-            }, 3500);
+                toast.style.transition = "opacity 0.3s ease";
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
-        // --- ÉCOUTEUR EN TEMPS RÉEL SUR FIREBASE FIRESTORE ---
+        // --- ÉCOUTEUR EN TEMPS RÉEL SUR FIREBASE ---
         function initialiserEcouteurFirebase() {
             db.collection("livres").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
                 bibliotheque = [];
@@ -1530,8 +1110,8 @@
                     const data = doc.data();
                     bibliotheque.push({
                         id: doc.id,
-                        titre: data.titre || "Sans titre",
-                        auteur: data.auteur || "Auteur inconnu",
+                        titre: data.titre || "",
+                        auteur: data.auteur || "",
                         image: data.image || "",
                         annee: data.annee || "",
                         statut: data.statut || "pas lu"
@@ -1540,43 +1120,27 @@
                 mettreAJourStats();
                 afficherLivres();
             }, (error) => {
-                notifier("Erreur de connexion à Firebase : " + error.message, "⚠️");
+                notifier("Erreur Firebase : " + error.message);
             });
         }
 
-        // --- COULEURS & LABELS DE STATUTS ---
         function getCouleurStatut(statut) {
             if (statut === "lu") return "var(--statut-lu)";
             if (statut === "en cours") return "var(--statut-encours)";
             return "var(--statut-paslu)";
         }
 
-        function getTexteStatut(statut) {
-            if (statut === "lu") return "Lu";
-            if (statut === "en cours") return "En cours";
-            return "À lire";
-        }
-
-        // --- STATISTIQUES GLOBALES DU SANCTUAIRE ---
         function mettreAJourStats() {
-            const total = bibliotheque.length;
-            const lus = bibliotheque.filter(l => l.statut === "lu").length;
-            const encours = bibliotheque.filter(l => l.statut === "en cours").length;
-            const paslu = bibliotheque.filter(l => l.statut === "pas lu").length;
-
-            document.getElementById("stat-total").innerText = total;
-            document.getElementById("stat-lus").innerText = lus;
-            document.getElementById("stat-encours").innerText = encours;
-            document.getElementById("stat-paslu").innerText = paslu;
+            document.getElementById("stat-total").innerText = bibliotheque.length;
+            document.getElementById("stat-lus").innerText = bibliotheque.filter(l => l.statut === "lu").length;
+            document.getElementById("stat-encours").innerText = bibliotheque.filter(l => l.statut === "en cours").length;
+            document.getElementById("stat-paslu").innerText = bibliotheque.filter(l => l.statut === "pas lu").length;
         }
 
-        // --- AFFICHAGE & FILTRAGE DES LIVRES ---
+        // --- AFFICHAGE DES LIVRES ---
         function afficherLivres() {
             const saisie = document.getElementById("input-recherche").value.trim().toLowerCase();
-            const btnClear = document.getElementById("btn-clear-search");
-            btnClear.style.display = saisie ? "block" : "none";
-
-            // Mise à jour de la liste des années dans le sélecteur
+            
             const selectAnnee = document.getElementById("select-annee");
             const anneesDispos = [...new Set(bibliotheque.map(l => l.annee).filter(a => a !== "" && a !== undefined))].sort((a,b) => b - a);
             
@@ -1587,10 +1151,9 @@
             selectAnnee.innerHTML = optionsHTML;
             selectAnnee.value = anneesDispos.includes(filtreActuelAnnee) ? filtreActuelAnnee : 'toutes';
 
-            // Filtrage des livres
             const livresFiltres = bibliotheque.filter(livre => {
                 const matchTexte = livre.titre.toLowerCase().includes(saisie) || 
-                                   livre.auteur.toLowerCase().includes(saisie) || 
+                                   livre.auteur.toLowerCase().includes(saisie) ||
                                    (livre.annee && livre.annee.toString().includes(saisie));
                 const matchStatut = (filtreActuelStatut === 'tous' || livre.statut === filtreActuelStatut);
                 const matchAnnee = (filtreActuelAnnee === 'toutes' || livre.annee == filtreActuelAnnee);
@@ -1600,9 +1163,8 @@
             if (livresFiltres.length === 0) {
                 etagere.innerHTML = `
                     <div class="etat-vide">
-                        <div class="etat-vide-icone">⚜</div>
-                        <h3>Aucun manuscrit trouvé</h3>
-                        <p>${bibliotheque.length === 0 ? "Votre sanctuaire est encore vierge. Inscrivez votre premier ouvrage ci-dessus !" : "Aucun ouvrage ne correspond à vos critères de recherche."}</p>
+                        <h3>Aucun livre trouvé</h3>
+                        <p>${bibliotheque.length === 0 ? "Votre bibliothèque est vide. Ajoutez un livre ci-dessus." : "Aucun livre ne correspond à votre recherche."}</p>
                     </div>
                 `;
                 return;
@@ -1610,13 +1172,13 @@
 
             etagere.innerHTML = livresFiltres.map(livre => `
                 <div class="livre" data-id="${livre.id}">
-                    <div class="badge-statut" style="background:${getCouleurStatut(livre.statut)}" onclick="changerStatutLivre('${livre.id}', event)" title="Cliquer pour changer de statut">
-                        ${getTexteStatut(livre.statut)}
+                    <div class="badge-statut" style="background:${getCouleurStatut(livre.statut)}" onclick="changerStatutLivre('${livre.id}', event)">
+                        ${livre.statut}
                     </div>
-                    <div class="livre-couverture-wrap" onclick="ouvrirDetails('${livre.id}')">
-                        <img src="${livre.image || 'https://via.placeholder.com/400x600/1e1215/d4af37?text=Couverture+Indisponible'}" 
+                    <div class="livre-cover-container" onclick="ouvrirDetails('${livre.id}')">
+                        <img src="${livre.image || 'https://via.placeholder.com/400x600/110e0e/d4af37?text=Couverture'}" 
                              loading="lazy" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/400x600/1e1215/d4af37?text=Couverture+Indisponible'" 
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/400x600/110e0e/d4af37?text=Couverture'" 
                              alt="${livre.titre}">
                     </div>
                     <div class="livre-info" onclick="ouvrirDetails('${livre.id}')">
@@ -1624,21 +1186,13 @@
                             <h2>${livre.titre}</h2>
                             <h3>${livre.auteur}</h3>
                         </div>
-                        ${livre.annee ? `<div class="livre-annee-tag">Lu en ${livre.annee}</div>` : ''}
+                        ${livre.annee ? `<p class="livre-annee">Lu en : ${livre.annee}</p>` : ''}
                     </div>
                     <div class="actions">
-                        <button type="button" class="btn-action bouton-modifier" onclick="abrirEdition('${livre.id}')">
-                            <span>⚜</span> Modifier
-                        </button>
+                        <button type="button" class="btn-action bouton-modifier" onclick="abrirEdition('${livre.id}')">Modifier</button>
                     </div>
                 </div>
             `).join('');
-        }
-
-        // --- EFFACER LA RECHERCHE ---
-        function effacerRecherche() {
-            document.getElementById("input-recherche").value = "";
-            afficherLivres();
         }
 
         // --- AJOUTER UN LIVRE DANS FIREBASE ---
@@ -1649,11 +1203,6 @@
             const image = document.getElementById("Image").value.trim() || "";
             const annee = document.getElementById("Annee").value.trim();
 
-            if (!titre || !auteur) {
-                notifier("Le titre et l'auteur sont requis.", "⚠️");
-                return;
-            }
-
             db.collection("livres").add({
                 titre: titre,
                 auteur: auteur,
@@ -1663,9 +1212,9 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
                 e.target.reset();
-                notifier(`« ${titre} » a été inscrit dans la Mktaba !`, "✨");
+                notifier(`« ${titre} » a été ajouté à la base de données.`);
             }).catch(error => {
-                notifier("Erreur lors de l'ajout : " + error.message, "❌");
+                alert("Erreur : " + error.message);
             });
         };
 
@@ -1679,16 +1228,10 @@
             if (livre.statut === "pas lu") nouveauStatut = "en cours";
             else if (livre.statut === "en cours") nouveauStatut = "lu";
 
-            db.collection("livres").doc(id).update({ 
-                statut: nouveauStatut 
-            }).then(() => {
-                notifier(`Statut de « ${livre.titre} » : ${getTexteStatut(nouveauStatut)}`, "🔖");
-            }).catch(err => {
-                notifier("Erreur de mise à jour du statut : " + err.message, "❌");
-            });
+            db.collection("livres").doc(id).update({ statut: nouveauStatut });
         }
 
-        // --- OUVRIR LES DÉTAILS D'UN LIVRE ---
+        // --- MODALE DÉTAILS ---
         function ouvrirDetails(id) {
             const livre = bibliotheque.find(l => l.id === id);
             if (!livre) return;
@@ -1696,14 +1239,8 @@
 
             document.getElementById("modalTitre").innerText = livre.titre;
             document.getElementById("modalAuteur").innerText = livre.auteur;
-            document.getElementById("modalImg").src = livre.image || 'https://via.placeholder.com/400x600/1e1215/d4af37?text=Couverture+Indisponible';
-            document.getElementById("modalAnnee").innerText = livre.annee ? livre.annee : 'Non spécifiée';
-
-            const pill = document.getElementById("modalStatutPill");
-            pill.innerText = getTexteStatut(livre.statut);
-            pill.style.background = getCouleurStatut(livre.statut);
-            pill.style.color = "#ffffff";
-
+            document.getElementById("modalImg").src = livre.image || 'https://via.placeholder.com/400x600/110e0e/d4af37?text=Couverture';
+            document.getElementById("modalAnnee").innerText = livre.annee ? `Lu en : ${livre.annee}` : '';
             document.getElementById("modalOverlay").style.display = "flex";
         }
 
@@ -1714,7 +1251,7 @@
             }
         }
 
-        // --- OUVRIR MODALE D'ÉDITION ---
+        // --- MODALE ÉDITION ---
         function abrirEdition(id) {
             const livre = bibliotheque.find(l => l.id === id);
             if (!livre) return;
@@ -1722,54 +1259,39 @@
             document.getElementById("editId").value = livre.id;
             document.getElementById("editTitre").value = livre.titre;
             document.getElementById("editAuteur").value = livre.auteur;
-            document.getElementById("editImg").value = livre.image || "";
+            document.getElementById("editImg").value = livre.image;
             document.getElementById("editAnnee").value = livre.annee || "";
             document.getElementById("modalEditOverlay").style.display = "flex";
         } 
 
-        // --- ENREGISTRER LES MODIFICATIONS DANS FIREBASE ---
+        // --- APPLIQUER MODIFICATIONS ---
         function appliquerModifications() {
             const id = document.getElementById("editId").value;
-            const nouveauTitre = document.getElementById("editTitre").value.trim();
-            const nouvelAuteur = document.getElementById("editAuteur").value.trim();
-            const nouvelleImage = document.getElementById("editImg").value.trim();
-            const nouvelleAnnee = document.getElementById("editAnnee").value.trim();
-
-            if (!nouveauTitre || !nouvelAuteur) {
-                notifier("Le titre et l'auteur ne peuvent être vides.", "⚠️");
-                return;
-            }
-
             db.collection("livres").doc(id).update({
-                titre: nouveauTitre,
-                auteur: nouvelAuteur,
-                image: nouvelleImage,
-                annee: nouvelleAnnee
+                titre: document.getElementById("editTitre").value.trim(),
+                auteur: document.getElementById("editAuteur").value.trim(),
+                image: document.getElementById("editImg").value.trim(),
+                annee: document.getElementById("editAnnee").value.trim()
             }).then(() => {
                 fermerModales();
-                notifier("Ouvrage mis à jour avec succès !", "✦");
+                notifier("Modifications enregistrées.");
             }).catch(error => {
-                notifier("Erreur lors de la modification : " + error.message, "❌");
+                alert("Erreur : " + error.message);
             });
         }
 
-        // --- SUPPRIMER UN LIVRE DE FIREBASE ---
+        // --- SUPPRIMER UN LIVRE ---
         function supprimerLivre() {
             const id = document.getElementById("editId").value;
-            const livre = bibliotheque.find(l => l.id === id);
-            const titre = livre ? livre.titre : "cet ouvrage";
-
-            if (confirm(`Voulez-vous vraiment retirer « ${titre} » de votre sanctuaire Cloud ?`)) {
+            if (confirm("Voulez-vous vraiment retirer cet ouvrage de votre collection cloud ?")) {
                 db.collection("livres").doc(id).delete().then(() => {
                     fermerModales();
-                    notifier(`« ${titre} » a été retiré de la Mktaba.`, "🗑️");
-                }).catch(err => {
-                    notifier("Erreur de suppression : " + err.message, "❌");
-                });
+                    notifier("Ouvrage supprimé.");
+                }).catch(err => alert("Erreur : " + err.message));
             }
         }
 
-        // --- CHANGEMENT DE VUE GRILLE / LISTE ---
+        // --- GESTION DE LA VUE ---
         function changerVue(mode) {
             const btnGrille = document.getElementById("btn-vue-grille");
             const btnListe = document.getElementById("btn-vue-liste");
@@ -1787,7 +1309,6 @@
             }
         }
 
-        // --- FILTRES ---
         function changerFiltreStatut(statut, btn) {
             document.querySelectorAll('.filtres-categorie .btn-filtre').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -1800,7 +1321,6 @@
             afficherLivres();
         }
 
-        // --- FERMETURE DES MODALES ---
         function fermerModales() {
             document.getElementById("modalOverlay").style.display = "none";
             document.getElementById("modalEditOverlay").style.display = "none";
@@ -1812,18 +1332,10 @@
 
         document.getElementById("input-recherche").addEventListener('input', afficherLivres);
 
-        // --- TIROIR OUTILS & ARCHIVES ---
-        function toggleTiroirOutils() {
-            const body = document.getElementById("tools-body");
-            const chevron = document.getElementById("tools-chevron");
-            body.classList.toggle("ouvert");
-            chevron.innerText = body.classList.contains("ouvert") ? "▲" : "▼";
-        }
-
         // --- EXPORT DE SAUVEGARDE EN FICHIER TXT ---
         function exporterSauvegardeCloud() {
             if (bibliotheque.length === 0) {
-                notifier("Aucun ouvrage à exporter.", "⚠️");
+                alert("Aucun livre à exporter.");
                 return;
             }
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(bibliotheque, null, 2));
@@ -1834,10 +1346,9 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
-            notifier("Sauvegarde TXT téléchargée avec succès !", "📥");
         }
 
-        // --- IMPORT MASSIF D'UN FICHIER TXT DIRECTEMENT VERS FIREBASE ---
+        // --- IMPORT MASSIF DU FICHIER TXT DIRECTEMENT VERS FIREBASE ---
         function importerDonneesFirebase(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1847,7 +1358,7 @@
                 try {
                     const donneesImportees = JSON.parse(e.target.result);
                     if (Array.isArray(donneesImportees)) {
-                        if (confirm(`Confirmez-vous le transfert de ces ${donneesImportees.length} manuscrits dans votre base de données Cloud ?`)) {
+                        if (confirm(`Êtes-vous sûr de vouloir transférer ces ${donneesImportees.length} livres dans votre base de données Cloud ?`)) {
                             
                             const batch = db.batch();
                             donneesImportees.forEach(livre => {
@@ -1863,22 +1374,22 @@
                             });
                             
                             batch.commit().then(() => {
-                                notifier(`☁️ Migration réussie ! ${donneesImportees.length} livres transférés.`, "✨");
+                                alert("☁️ Migration réussie ! Vos livres sont synchronisés dans Firebase.");
                             }).catch(err => {
-                                notifier("Erreur de synchronisation Cloud : " + err.message, "❌");
+                                alert("Erreur de synchronisation avec le cloud : " + err);
                             });
                         }
                     } else {
-                        notifier("Le format du fichier TXT n'est pas valide.", "⚠️");
+                        alert("Le format du fichier n'est pas valide.");
                     }
                 } catch (err) {
-                    notifier("Erreur lors de la lecture du fichier texte.", "❌");
+                    alert("Erreur de lecture du fichier texte.");
                 }
             };
             reader.readAsText(file);
         }
 
-        // --- IMPORT DE FICHIER CSV GOODREADS ---
+        // --- IMPORT GOODREADS CSV ---
         function importerGoodreadsCSV(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1924,11 +1435,11 @@
                     compte++;
                 }
 
-                if (compte > 0 && confirm(`Importer ces ${compte} ouvrages Goodreads vers Firebase ?`)) {
+                if (compte > 0 && confirm(`Importer ces ${compte} livres Goodreads vers Firebase ?`)) {
                     batch.commit().then(() => {
-                        notifier(`✨ ${compte} ouvrages Goodreads intégrés avec succès !`, "📚");
+                        alert(`${compte} livres Goodreads ont été ajoutés à votre base de données !`);
                     }).catch(err => {
-                        notifier("Erreur lors de l'import Goodreads : " + err.message, "❌");
+                        alert("Erreur d'import : " + err);
                     });
                 }
             };
